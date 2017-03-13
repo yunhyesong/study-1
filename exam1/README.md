@@ -1,6 +1,5 @@
 # point
-```javascript
-//(중략)
+```html
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
 $(function () {
@@ -12,4 +11,5 @@ $(function () {
     $(selector).on('click', funcName);
 });
 </script>
+</body>
 ```
