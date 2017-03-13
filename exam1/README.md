@@ -6,9 +6,9 @@ $(function () {
     // your script
     var selector = $('.btn');
     var funcName = function () {
-        $(selector).css('background', 'yellow');
+        selector.css('background', 'yellow');
     };
-    $(selector).on('click', funcName);
+    selector.on('click', funcName);
 });
 </script>
 </body>
