@@ -1,9 +1,8 @@
 # point
 ```javascript
-(중략)
-...
-&lt;script src="http://code.jquery.com/jquery-latest.js"&gt;&lt;/script&gt;
-&lt;script&gt;
+//(중략)
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
 $(function () {
     // your script
     var selector = $('.btn');
@@ -12,6 +11,5 @@ $(function () {
     };
     $(selector).on('click', funcName);
 });
-&lt;/script&gt;
-&lt;/body&gt;
+</script>
 ```
