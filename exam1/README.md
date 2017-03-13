@@ -4,11 +4,12 @@
 <script>
 $(function () {
     // your script
-    var selector = $('.btn');
+    var eventSelector = $('.btn'),
+        animateSelector = $('.box');
     var funcName = function () {
-        selector.css('background', 'yellow');
+        animateSelector.css('background', 'yellow');
     };
-    selector.on('click', funcName);
+    eventSelector.on('click', funcName);
 });
 </script>
 </body>
