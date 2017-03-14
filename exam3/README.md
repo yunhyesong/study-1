@@ -1,7 +1,7 @@
 # point
 <br>
 
-## jQuery 메소드 참고
+## jQuery api 참고
 [https://oscarotero.com/jquery/](https://oscarotero.com/jquery/)
 
 <br>
