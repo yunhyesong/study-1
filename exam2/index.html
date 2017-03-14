@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>exam1</title>
+<style>
+body{font-size:14px;line-height:1.5}
+h1,h2,h3,h4,h5,h6{font-size:14px}
+</style>
+</head>
+<body>
+<!-- wrapper [s] -->
+<div id="wrapper">
+	<!-- header [s] -->
+	<div id="header">@</div>
+	<!-- header [e] -->
+	<hr />
+	<!-- container [s] -->
+	<div id="container">
+		<button class="btn">Button</button>
+		<ul class="box">
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
+			<li>7</li>
+		</ul>
+	</div>
+	<!-- container [e] -->
+	<hr />
+	<!-- footer [s] -->
+	<div id="footer">@</div>
+	<!-- footer [e] -->
+<!-- [ Javascript Area ] -->
+<!-- Libs -->
+<script src="../js/libs/jquery-1.12.4.min.js"></script>
+<!-- Apps -->
+<script>
+$(function () {
+    var eventSelector = $('.btn'),
+        animateSelector = $('.box');
+        animateSelectorChild = animateSelector.children(),
+        currentIndex = 0;
+    var funcName = function () {
+        animateSelectorChild.eq(currentIndex).css('background', 'yellow');
+        currentIndex += 1;
+    };
+    eventSelector.on('click', funcName);
+});
+</script>
+</div>
+</body>
+</html>
