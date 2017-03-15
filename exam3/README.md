@@ -1,8 +1,7 @@
 # point
 <br>
 
-## jQuery api 참고
-[https://oscarotero.com/jquery/](https://oscarotero.com/jquery/)
+
 
 <br>
 ## console.log
