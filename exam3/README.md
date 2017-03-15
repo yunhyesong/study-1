@@ -1,9 +1,11 @@
 # point
 <br>
 
-
+## jQuery api 참고
+[https://oscarotero.com/jquery/](https://oscarotero.com/jquery/)
 
 <br>
+
 ## console.log
 * 변수 및 다양한 정보들을 확인할 수 있는 매우 중요한 함수
 * IE(Internet Explorer)는 8.x 이상에서만 지원되고, 이외의 웹 브라우저는 대부분 지원됨.
