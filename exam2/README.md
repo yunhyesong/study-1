@@ -5,7 +5,7 @@
 $(function () {
     var btnPrev = $('.btn-prev'),
         btnNext = $('.btn-next'),
-        animateSelector = $('.box');
+        animateSelector = $('.box'),
         animateSelectorChild = animateSelector.children(),
         currentIndex = 0,
         oldIndex = currentIndex;
