@@ -43,11 +43,11 @@ $(function () {
             this.bindEvents();
         },
         setElements : function () {
-            this.obj = $('.btn');
-            this.btn = $('.obj');
+            this.obj = $('.obj');
+            this.btn = $('.btn');
         },
         bindEvents : function () {
-            this.obj.on('click', $.proxy(this.viewFunc, this));
+            this.btn.on('click', $.proxy(this.viewFunc, this));
         },
         viewFunc : function () {
             console.log(this);
