@@ -3,7 +3,10 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
 $(function () {
-    var arrayObj = [['data1', 'data2', 'attribute2', 'attribute1', 'attribute20'], ['attribute19','data1', 'data2', 'attribute2', 'attribute1'], ['attribute20', 'attribute19','data1', 'data2', 'attribute2'], ['attribute1', 'attribute20', 'attribute19','data1','datalast']];
+    var arrayObj = [['data1', 'data2', 'attribute2', 'attribute1', 'attribute20'],
+        ['attribute19','data1', 'data2', 'attribute2', 'attribute1'],
+        ['attribute20', 'attribute19','data1', 'data2', 'attribute2'],
+        ['attribute1', 'attribute20', 'attribute19','data1','datalast']];
 
     // push
     var tagPush = [];
