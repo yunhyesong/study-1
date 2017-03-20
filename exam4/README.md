@@ -24,7 +24,7 @@ $(function () {
     $('.push_html').get(0).innerHTML = tagPush.join('');
 
     // +=
-    var tagPlus = [];
+    var tagPlus = '';
     tagPlus += '<table>';
     tagPlus += '<tbody>';
     for (var i = 0, max = arrayObj.length; i < max; i++) {
