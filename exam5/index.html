@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>exam1</title>
+<style>
+body{font-size:14px;line-height:1.5}
+h1,h2,h3,h4,h5,h6{font-size:14px}
+ul,li{list-style:none}
+.box{position:relative;width:300px;height:300px}
+.box li{display:none;position:absolute;left:0;top:0;right:0;bottom:0}
+</style>
+</head>
+<body>
+<!-- wrapper [s] -->
+<div id="wrapper">
+    <!-- header [s] -->
+    <div id="header">@</div>
+    <!-- header [e] -->
+    <hr />
+    <!-- container [s] -->
+    <div id="container">
+        <div class="push_html">
+        </div>
+        <div class="plus_html">
+        </div>
+    </div>
+    <!-- container [e] -->
+    <hr />
+    <!-- footer [s] -->
+    <div id="footer">@</div>
+    <!-- footer [e] -->
+<!-- [ Javascript Area ] -->
+<!-- Libs -->
+<script src="../js/libs/jquery-1.12.4.min.js"></script>
+<!-- Apps -->
+<script>
+$(function () {
+    var objFunc = {
+        init : function () {
+            this.setElements();
+            this.bindEvents();
+        },
+        setElements : function () {
+            this.obj = $('.btn');
+            this.btn = $('.obj');
+        },
+        bindEvents : function () {
+            this.obj.on('click', $.proxy(this.viewFunc, this));
+        },
+        viewFunc : function () {
+            console.log(this);
+            console.log('click');
+        }
+    };
+    objFunc.init();
+});
+</script>
+</div>
+</body>
+</html>
