@@ -6,7 +6,8 @@ $(function () {
     var arrayObj = [['data1', 'data2', 'attribute2', 'attribute1', 'attribute20'],
         ['attribute19','data1', 'data2', 'attribute2', 'attribute1'],
         ['attribute20', 'attribute19','data1', 'data2', 'attribute2'],
-        ['attribute1', 'attribute20', 'attribute19','data1','datalast']];
+        ['attribute1', 'attribute20', 'attribute19','data1','datalast'],
+        ['attribute1', 'attribute20']];
 
     // push
     var tagPush = [];
@@ -14,8 +15,12 @@ $(function () {
     tagPush.push('<tbody>');
     for (var i = 0, max = arrayObj.length; i < max; i++) {
         tagPush.push('<tr>');
-        for (var td = 0, tmax = arrayObj[i].length; td < tmax; td++) {
-            tagPush.push('<td>' + arrayObj[i][td] + '</td>');
+        for (var td = 0, tmax = 5; td < tmax; td++) {
+            if (arrayObj[i][td]) {
+                tagPush.push('<td>' + arrayObj[i][td] + '</td>');
+            } else {
+                tagPush.push('<td>없음</td>');
+            }
         }
         tagPush.push('</tr>');
     }
@@ -29,8 +34,12 @@ $(function () {
     tagPlus += '<tbody>';
     for (var i = 0, max = arrayObj.length; i < max; i++) {
         tagPlus += '<tr>';
-        for (var td = 0, tmax = arrayObj[i].length; td < tmax; td++) {
-            tagPlus += '<td>' + arrayObj[i][td] + '</td>';
+        for (var td = 0, tmax = 5; td < tmax; td++) {
+            if (arrayObj[i][td]) {
+                tagPlus += '<td>' + arrayObj[i][td] + '</td>';
+            } else {
+                tagPlus += '<td>없음</td>';
+            }
         }
         tagPlus += '</tr>';
     }
