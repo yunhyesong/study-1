@@ -8,8 +8,7 @@
 body{font-size:14px;line-height:1.5}
 h1,h2,h3,h4,h5,h6{font-size:14px}
 ul,li{list-style:none}
-.box{position:relative;width:300px;height:300px}
-.box li{display:none;position:absolute;left:0;top:0;right:0;bottom:0}
+.active{padding:10px;background:blue}
 </style>
 </head>
 <body>
@@ -21,10 +20,7 @@ ul,li{list-style:none}
     <hr />
     <!-- container [s] -->
     <div id="container">
-        <div class="push_html">
-        </div>
-        <div class="plus_html">
-        </div>
+        <div><button class="btn" type="button">button</button></div>
     </div>
     <!-- container [e] -->
     <hr />
@@ -36,26 +32,26 @@ ul,li{list-style:none}
 <script src="../js/libs/jquery-1.12.4.min.js"></script>
 <!-- Apps -->
 <script>
-$(function () {
+(function (win, $) {
     var objFunc = {
         init : function () {
             this.setElements();
             this.bindEvents();
         },
         setElements : function () {
-            this.obj = $('.obj');
             this.btn = $('.btn');
         },
         bindEvents : function () {
             this.btn.on('click', $.proxy(this.viewFunc, this));
         },
-        viewFunc : function () {
-            console.log(this);
-            console.log('click');
+        viewFunc : function (e) {
+            $(e.currentTarget).parent().addClass('active');
         }
     };
-    objFunc.init();
-});
+    $(function () {
+        objFunc.init();
+    });
+})(window, window.jQuery);
 </script>
 </div>
 </body>
