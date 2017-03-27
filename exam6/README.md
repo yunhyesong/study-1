@@ -27,7 +27,7 @@ array3 = [];
 console.log(array3.length);
 </script>
 ```
-<br>
+
 ### Array Method
 * join - 문자열로 리턴 (원본 변경 X)
 * reverse - 거꾸로 변경
@@ -62,7 +62,7 @@ var obj2 = {
 obj2.fn();
 </script>
 ```
-<br>
+
 ### Object - for … in
 * 반복문으로 키값을 꺼내오는 구문
 
@@ -79,7 +79,7 @@ for (var key in obj) {
 }
 </script>
 ```
-<br>
+
 ### Object - delete
 * 값을 삭제하는 구문
 
