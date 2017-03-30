@@ -60,18 +60,18 @@ button::-moz-focus-inner{padding:0;border:0}
             var focusOutTag = '<span class="js-focusout" tabindex="0" style="overflow:hidden;position:absolute;left:0;top:0;z-index:-1;width:1px;height:1px;font-size:0;line-height:0"></span>';
             this.obj.before(focusOutTag);
             this.obj.after(focusOutTag);
-            this.prevFocus = this.obj.prev().addClass('js-prevfocus');
-            this.nextFocus = this.obj.next().addClass('js-nextfocus');
+            this.prevFocus = this.obj.prev();
+            this.nextFocus = this.obj.next();
             this.obj.attr('tabIndex', 0);
         },
         bindEvents : function () {
             this.btn.on('click', $.proxy(this.layerView, this));
             this.closeBtn.on('click', $.proxy(this.layerClickOutside, this));
+            this.prevFocus.on('focusin', $.proxy(this.prevFocusFunc, this));
+            this.nextFocus.on('focusin', $.proxy(this.nextFocusFunc, this));
         },
         outSideEvents : function () {
             this.obj.on('clickoutside', $.proxy(this.layerClickOutside, this));
-            this.prevFocus.on('focusin', $.proxy(this.prevFocusFunc, this));
-            this.nextFocus.on('focusin', $.proxy(this.nextFocusFunc, this));
         },
         layerView : function () {
             this.objWrap.fadeIn(100, $.proxy(function () {
