@@ -74,13 +74,13 @@ button::-moz-focus-inner{padding:0;border:0}
             this.nextFocus.on('focusin', $.proxy(this.nextFocusFunc, this));
         },
         layerView : function () {
-            this.objWrap.fadeIn('fast', $.proxy(function () {
+            this.objWrap.fadeIn(100, $.proxy(function () {
                 this.obj.focus();
                 this.outSideEvents();
             }, this));
         },
         layerClickOutside : function () {
-            this.objWrap.fadeOut('fast');
+            this.objWrap.fadeOut(100);
             this.btn.focus();
             this.obj.off('clickoutside');
         },
