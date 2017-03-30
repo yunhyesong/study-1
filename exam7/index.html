@@ -75,9 +75,9 @@ button::-moz-focus-inner{padding:0;border:0}
         },
         layerView : function () {
             this.objWrap.fadeIn(100, $.proxy(function () {
-                this.obj.focus();
                 this.outSideEvents();
             }, this));
+            this.obj.focus();
         },
         layerClickOutside : function () {
             this.objWrap.fadeOut(100);
