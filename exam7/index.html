@@ -22,20 +22,34 @@ button::-moz-focus-inner{padding:0;border:0}
 </style>
 </head>
 <body>
-<div class="btn_pos js-btn_pos"><button>레이어 띄우기</button></div>
-<div class="layer_area js-layer_area">
-    <span class="layer_dimmed">&nbsp;</span>
-    <div class="layer_pos">
-        <ul>
-            <li>내용1<a href="#">링크</a></li>
-            <li>내용2</li>
-            <li>내용3</li>
-            <li>내용4</li>
-            <li>내용5</li>
-        </ul>
-        <p class="layer_close"><button>닫기</button></p>
+<!-- wrapper [s] -->
+<div id="wrapper">
+    <!-- header [s] -->
+    <div id="header">@</div>
+    <!-- header [e] -->
+    <hr />
+    <!-- container [s] -->
+    <div id="container">
+        <div class="btn_pos js-btn_pos"><button>레이어 띄우기</button></div>
+        <div class="layer_area js-layer_area">
+            <span class="layer_dimmed">&nbsp;</span>
+            <div class="layer_pos">
+                <ul>
+                    <li>내용1<a href="#">링크</a></li>
+                    <li>내용2</li>
+                    <li>내용3</li>
+                    <li>내용4</li>
+                    <li>내용5</li>
+                </ul>
+                <p class="layer_close"><button>닫기</button></p>
+            </div>
+        </div>
     </div>
-</div>
+    <!-- container [e] -->
+    <hr />
+    <!-- footer [s] -->
+    <div id="footer">@</div>
+    <!-- footer [e] -->
 <!-- [ Javascript Area ] -->
 <!-- Libs -->
 <script src="../js/libs/jquery-1.12.4.min.js"></script>
@@ -96,5 +110,6 @@ button::-moz-focus-inner{padding:0;border:0}
     });
 })(window, window.jQuery);
 </script>
+</div>
 </body>
 </html>
