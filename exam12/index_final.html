@@ -110,7 +110,7 @@ th,td{height:50px;text-align:center}
             var textArray = [],
                 basicArray = [];
             this.tableBody.children().filter(function () {
-                var txt = $(this).find('td').eq(1).text();
+                var txt = $.trim($(this).find('td').eq(1).text());
                 textArray.push(txt);
                 basicArray.push(txt);
             });
@@ -123,7 +123,7 @@ th,td{height:50px;text-align:center}
             var textArray = [],
                 basicArray = [];
             this.tableBody.children().filter(function () {
-                var txt = $(this).find('td').eq(2).text();
+                var txt = $.trim($(this).find('td').eq(2).text());
                 textArray.push(txt);
                 basicArray.push(txt);
             });
