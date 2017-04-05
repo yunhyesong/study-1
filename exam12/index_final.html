@@ -144,10 +144,13 @@ th,td{height:50px;text-align:center}
                 }
             }
             for (var key in layoutIndex) {
-                var indexHTML = tableBodyChild.eq(layoutIndex[key]).get(0).outerHTML;
-                layoutArray.push(indexHTML);
+                this.tableBody.children().last().after(tableBodyChild.eq(layoutIndex[key]));
             }
-            this.tableBody.html(layoutArray.join(''));
+            // for (var key in layoutIndex) {
+            //     var indexHTML = tableBodyChild.eq(layoutIndex[key]).get(0).outerHTML;
+            //     layoutArray.push(indexHTML);
+            // }
+            // this.tableBody.html(layoutArray.join(''));
         }
     };
     $(function () {
