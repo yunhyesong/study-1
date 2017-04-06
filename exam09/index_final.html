@@ -86,7 +86,7 @@ button::-moz-focus-inner{padding:0;border:0}
         init : function () {
             this.setElements();
             this.initLayout();
-            this.bindEventHandlers();
+            this.bindEvents();
         },
         setElements : function () {
             this.castBox = $('.cast_box');
@@ -110,7 +110,7 @@ button::-moz-focus-inner{padding:0;border:0}
             this.viewLayout();
             this.indexUpdate();
         },
-        bindEventHandlers : function () {
+        bindEvents : function () {
             this.castTabChild.on('click', '>a', $.proxy(this.onClickFunc, this));
             this.castPrevBtn.on('click', $.proxy(this.onPrevFunc, this));
             this.castNextBtn.on('click', $.proxy(this.onNextFunc, this));

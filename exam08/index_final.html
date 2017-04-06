@@ -80,7 +80,7 @@ button::-moz-focus-inner{padding:0;border:0}
             this.setElements();
             this.createArray();
             this.initLayout();
-            this.bindEventHandlers();
+            this.bindEvents();
         },
         setElements : function () {
             this.wrap = $('.create_wrap');
@@ -109,7 +109,7 @@ button::-moz-focus-inner{padding:0;border:0}
             this.oldNum = currentIndex;
             this.buildArray(random);
         },
-        bindEventHandlers : function () {
+        bindEvents : function () {
             this.btn.on('click', $.proxy(this.viewLayout, this));
         },
         viewLayout : function () {

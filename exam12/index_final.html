@@ -78,7 +78,7 @@ th,td{height:50px;text-align:center}
     var sortTable = {
         init : function () {
             this.setElements();
-            this.bindEventHandlers();
+            this.bindEvents();
         },
         setElements : function () {
             this.tableBx = $('table');
@@ -88,7 +88,7 @@ th,td{height:50px;text-align:center}
             this.sortBtnWrite = this.tableHead.children().eq(2).find('button');
             this.tableBody = this.tableBx.find('tbody');
         },
-        bindEventHandlers : function () {
+        bindEvents : function () {
             this.sortBtnNum.on('click', $.proxy(this.onSortNumFunc, this));
             this.sortBtnTitle.on('click', $.proxy(this.onSortTitleFunc, this));
             this.sortBtnWrite.on('click', $.proxy(this.onSortWriteFunc, this));
