@@ -126,7 +126,7 @@ a,a:focus,a:active,a:hover{text-decoration:none;color:#333}
             });
         },
         bindEvents : function () {
-            this.objChild.on('click', '.depth2_tit', $.proxy(this.onClickFunc, this));
+            this.objChild.on('click', '> .depth2_tit', $.proxy(this.onClickFunc, this));
         },
         onClickFunc : function (e) {
             e.preventDefault();
