@@ -155,9 +155,9 @@ button::-moz-focus-inner{padding:0;border:0}
         initLayout : function () {
             var initHash = win.location.hash,
                 hashTarget = this.castContChild.filter(initHash);
+            this.currentIndex = (hashTarget.length) ? hashTarget.index() : 0;
             this.castTabChild.removeClass('active');
             this.castContChild.hide();
-            this.currentIndex = (hashTarget.length) ? hashTarget.index() : 0;
             this.castNumTotal.text(this.castTabChild.length);
             this.viewLayout();
             this.indexUpdate();
@@ -232,9 +232,9 @@ button::-moz-focus-inner{padding:0;border:0}
         initLayout : function () {
             var initHash = win.location.hash,
                 hashTarget = this.castContChild.filter(initHash);
+            this.currentIndex = (hashTarget.length) ? hashTarget.index() : 0;
             this.castTabChild.removeClass('active');
             this.castContChild.hide();
-            this.currentIndex = (hashTarget.length) ? hashTarget.index() : 0;
             this.castNumTotal.text(this.castTabChild.length);
             this.viewLayout();
             this.indexUpdate();
