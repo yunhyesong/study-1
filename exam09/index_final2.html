@@ -139,8 +139,9 @@ button::-moz-focus-inner{padding:0;border:0}
             this.hashUpdate();
         },
         onHashChangeFunc : function () {
-            var initHash = win.location.hash;
-            this.currentIndex = (initHash) ? $(initHash).index() : 0;
+            var initHash = win.location.hash,
+                hashTarget = this.castContChild.filter(initHash);
+            this.currentIndex = (hashTarget.length) ? hashTarget.index() : 0;
             this.viewLayout();
             this.indexUpdate();
         },
