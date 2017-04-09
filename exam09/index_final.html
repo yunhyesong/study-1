@@ -153,10 +153,11 @@ button::-moz-focus-inner{padding:0;border:0}
             this.castNumTotal = this.castNumBox.find('.total');
         },
         initLayout : function () {
-            var initHash = win.location.hash;
+            var initHash = win.location.hash,
+                hashTarget = this.castContChild.filter(initHash);
             this.castTabChild.removeClass('active');
             this.castContChild.hide();
-            this.currentIndex = (initHash) ? $(initHash).index() : 0;
+            this.currentIndex = (hashTarget.length) ? hashTarget.index() : 0;
             this.castNumTotal.text(this.castTabChild.length);
             this.viewLayout();
             this.indexUpdate();
@@ -229,10 +230,11 @@ button::-moz-focus-inner{padding:0;border:0}
             this.castNumTotal = this.castNumBox.find('.total');
         },
         initLayout : function () {
-            var initHash = win.location.hash;
+            var initHash = win.location.hash,
+                hashTarget = this.castContChild.filter(initHash);
             this.castTabChild.removeClass('active');
             this.castContChild.hide();
-            this.currentIndex = (initHash) ? $(initHash).index() : 0;
+            this.currentIndex = (hashTarget.length) ? hashTarget.index() : 0;
             this.castNumTotal.text(this.castTabChild.length);
             this.viewLayout();
             this.indexUpdate();
