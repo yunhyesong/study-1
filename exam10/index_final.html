@@ -54,7 +54,7 @@ p{margin-bottom:30px;padding-bottom:10px;border-bottom:2px solid #da0707;font-si
     <div id="container">
         <div class="box box1">
             <p>1. 체크박스</p>
-            <div class="check_box">
+            <div class="check_box chk_active">
                 <input type="checkbox" id="agree_v1" class="ipt_chk">
                 <span class="chk_box"></span>
             </div>
@@ -62,7 +62,7 @@ p{margin-bottom:30px;padding-bottom:10px;border-bottom:2px solid #da0707;font-si
         </div>
         <div class="box box2">
             <p>2. 라디오버튼</p>
-            <span class="radio_box">
+            <span class="radio_box chk_active">
                 <input type="radio" id="radio1" name="radio1" class="ipt_rdo">
                 <span class="rdo_box"></span>
                 <label for="radio1">라디오1</label>
@@ -112,6 +112,7 @@ p{margin-bottom:30px;padding-bottom:10px;border-bottom:2px solid #da0707;font-si
         },
         initLayout : function () {
             this.chk.filter(':checked').closest('.check_box').addClass('chk_active');
+            this.chk.filter(':not(:checked)').closest('.check_box').removeClass('chk_active');
         },
         bindEvents : function () {
             this.chk.on('change', $.proxy(this.onChangeFunc, this));
@@ -139,6 +140,7 @@ p{margin-bottom:30px;padding-bottom:10px;border-bottom:2px solid #da0707;font-si
         },
         initLayout : function () {
             this.radio.filter(':checked').closest('.radio_box').addClass('chk_active');
+            this.radio.filter(':not(:checked)').closest('.radio_box').removeClass('chk_active');
         },
         bindEvents : function () {
             this.radio.on('change', $.proxy(this.onChangeFunc, this));
