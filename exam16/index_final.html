@@ -197,10 +197,10 @@ button::-moz-focus-inner{padding:0;border:0}
         },
         bindEvents : function () {
             this.obj.on('keydown', $.proxy(this.onKeyDownFunc, this));
-            this.scrollBarArea.on('mousedown', $.proxy(this.barAreaMouseDownFunc, this));
-            this.scrollBar.on('mousedown', $.proxy(this.barMouseDownFunc, this));
-            $(doc).on('mouseup', $.proxy(this.docMouseUpFunc, this));
-            $('#container').on('mousemove', $.proxy(this.containerMouseMoveFunc, this));
+            this.scrollBarArea.on('mousedown touchstart', $.proxy(this.barAreaMouseDownFunc, this));
+            this.scrollBar.on('mousedown touchstart', $.proxy(this.barMouseDownFunc, this));
+            $(doc).on('mouseup touchend', $.proxy(this.docMouseUpFunc, this));
+            $('#container').on('mousemove touchmove', $.proxy(this.containerMouseMoveFunc, this));
             this.scrollWrap.on('mousewheel', $.proxy(this.mouseWheelFunc, this));
         },
         onKeyDownFunc : function (e) {
@@ -228,7 +228,7 @@ button::-moz-focus-inner{padding:0;border:0}
         barAreaMouseDownFunc : function (e) {
             var scrollBar = this.scrollBar,
                 scrollBarOffsetLeft = scrollBar.offset().left;
-            this.downWhich = e.pageX;
+            this.downWhich = e.pageX || e.originalEvent.touches[0].pageX;
             this.downPosition = (this.downWhich < scrollBarOffsetLeft) ? 'left' : 'right';
             win.clearInterval(this.downIntervalTime);
             this.downIntervalTime = win.setInterval($.proxy(this.downIntervalFunc, this), 10);
@@ -254,7 +254,7 @@ button::-moz-focus-inner{padding:0;border:0}
             e.preventDefault();
             e.stopPropagation();
             this.opts.barDown = true;
-            this.downWhich = e.pageX;
+            this.downWhich = e.pageX || e.originalEvent.touches[0].pageX;
         },
         docMouseUpFunc : function (e) {
             e.stopPropagation();
@@ -266,7 +266,8 @@ button::-moz-focus-inner{padding:0;border:0}
         containerMouseMoveFunc : function (e) {
             e.stopPropagation();
             if (!this.opts.barDown) return;
-            this.moveX = (e.pageX - this.downWhich) + this.currentX;
+            var pageX =  e.pageX || e.originalEvent.touches[0].pageX;
+            this.moveX = (pageX - this.downWhich) + this.currentX;
             this.contMoveX = this.moveX * this.contMoveRange;
             this.contMoveXFunc();
             this.barMoveXFunc();
