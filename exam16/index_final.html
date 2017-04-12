@@ -185,11 +185,13 @@ button::-moz-focus-inner{padding:0;border:0}
             this.scrollViewWrap.css('width', this.scrollCont.outerWidth(true));
         },
         initOpts : function () {
-            this.currentX = 0;
+            this.currentX = this.currentY = 0;
             this.scrollWrap.scrollLeft(0);
+            this.scrollWrap.scrollTop(0);
         },
         setPos : function () {
             this.scrollContRangeWidth = this.scrollViewWrap.outerWidth(true) - this.scrollWrap.outerWidth(true);
+            this.scrollContRangeHeight = this.scrollViewWrap.outerHeight(true) - this.scrollWrap.outerHeight(true);
             this.scrollBarRangeWidth = this.scrollBarArea.outerWidth(true) - this.scrollBar.outerWidth(true) - 4;
             this.contMoveRange = this.scrollContRangeWidth / this.scrollBarRangeWidth;
         },
@@ -206,10 +208,21 @@ button::-moz-focus-inner{padding:0;border:0}
                 this.moveX = this.currentX + this.opts.keySpaceX;
             } else if (e.which === 37) {
                 this.moveX = this.currentX - this.opts.keySpaceX;
+            } else if (e.which === 40) {
+                this.moveY = this.currentY + this.opts.keySpaceY;
+            } else if (e.which === 38) {
+                this.moveY = this.currentY - this.opts.keySpaceY;
             }
-            this.contMoveX = this.moveX * this.contMoveRange;
-            this.contMoveXFunc();
-            this.barMoveXFunc();
+
+            if ((e.which === 39) || (e.which === 37)) {
+                this.contMoveX = this.moveX * this.contMoveRange;
+                this.contMoveXFunc();
+                this.barMoveXFunc();
+            } else if ((e.which === 38) || (e.which === 40)) {
+                this.contMoveY = this.moveY;
+                this.contMoveYFunc();
+                this.barMoveYFunc();
+            }
             this.endMoveFunc();
         },
         barAreaMouseDownFunc : function (e) {
@@ -238,6 +251,7 @@ button::-moz-focus-inner{padding:0;border:0}
             this.endMoveFunc();
         },
         barMouseDownFunc : function (e) {
+            e.preventDefault();
             e.stopPropagation();
             this.opts.barDown = true;
             this.downWhich = e.pageX;
@@ -250,6 +264,7 @@ button::-moz-focus-inner{padding:0;border:0}
             this.endMoveFunc();
         },
         containerMouseMoveFunc : function (e) {
+            e.stopPropagation();
             if (!this.opts.barDown) return;
             this.moveX = (e.pageX - this.downWhich) + this.currentX;
             this.contMoveX = this.moveX * this.contMoveRange;
@@ -272,16 +287,42 @@ button::-moz-focus-inner{padding:0;border:0}
             }
             this.scrollBar.css('margin-left', this.moveX);
         },
+        contMoveYFunc : function () {
+            if (this.contMoveY < 0) {
+                this.contMoveY = 0;
+            } else if (this.contMoveY >= this.scrollContRangeHeight) {
+                this.contMoveY = this.scrollContRangeHeight;
+            }
+            this.scrollWrap.scrollTop(this.contMoveY);
+        },
+        barMoveYFunc : function () {
+            if (this.moveY < 0) {
+                this.moveY = 0;
+            } else if (this.moveY >= this.scrollContRangeHeight) {
+                this.moveY = this.scrollContRangeHeight;
+            }
+        },
         endMoveFunc : function () {
+            if (!this.moveX) {
+                this.moveX = 0;
+            }
+            if (!this.moveY) {
+                this.moveY = 0;
+            }
             this.currentX = this.moveX;
+            this.currentY = this.moveY;
         },
         mouseWheelFunc : function (e) {
             e.preventDefault();
-            if (e.deltaY > 0) {
-                console.log('mouseup');
+            if (e.deltaY < 0) {
+                this.moveY = this.currentY + this.opts.keySpaceY;
             } else {
-                console.log('mousedown');
+                this.moveY = this.currentY - this.opts.keySpaceY;
             }
+            this.contMoveY = this.moveY;
+            this.contMoveYFunc();
+            this.barMoveYFunc();
+            this.endMoveFunc();
         }
     };
     $(function () {
