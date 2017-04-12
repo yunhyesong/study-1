@@ -238,7 +238,7 @@ button::-moz-focus-inner{padding:0;border:0}
                 scrollBarOffsetLeft = scrollBar.offset().left,
                 scrollBarWidth = scrollBarOffsetLeft + scrollBar.outerWidth();
             if ((scrollBarOffsetLeft <= this.downWhich) && (scrollBarWidth >= this.downWhich)) {
-                win.clearInterval(this.downIntervalTime);
+                return win.clearInterval(this.downIntervalTime);
             }
             if (this.downPosition === 'right') {
                 this.moveX = this.currentX + this.opts.keySpaceX;
