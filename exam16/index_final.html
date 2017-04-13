@@ -142,10 +142,16 @@ button::-moz-focus-inner{padding:0;border:0}
 <!-- Libs -->
 <script src="../js/libs/jquery-1.12.4.min.js"></script>
 <script src="js/jquery.mousewheel.min.js"></script>
+<!-- Apps -->
+<script src="../js/apps/common.js"></script>
 <script>
 (function (win, $, doc) {
     'use strict';
     win.stProject = win.stProject || {};
+    win.stProject.common = win.stProject.common || {};
+
+    var UTIL = win.stProject.common.util;
+
     win.stProject.customScroll = function (args) {
         var defParams = {
             wrap : '.sample',
@@ -155,6 +161,7 @@ button::-moz-focus-inner{padding:0;border:0}
             scrollBarWrap : '.scroll_bar_wrap',
             scrollBarArea : '.bar_area',
             scrollBar : '.bar',
+            overWrap : '#container',
             keySpaceX : 20,
             keySpaceY : 20,
             barDown : false
@@ -178,14 +185,20 @@ button::-moz-focus-inner{padding:0;border:0}
             this.scrollBarWrap = this.obj.find(this.opts.scrollBarWrap);
             this.scrollBarArea = this.scrollBarWrap.find(this.opts.scrollBarArea);
             this.scrollBar = this.scrollBarArea.find(this.opts.scrollBar);
+            this.overWrap = $(this.opts.overWrap);
         },
         initLayout : function (){
-            this.obj.attr('tabIndex', 0);
-            this.scrollWrap.css('overflow', 'hidden');
+            if (!UTIL.isDevice) {
+                this.obj.attr('tabIndex', 0);
+                this.scrollWrap.css('overflow', 'hidden');
+            } else {
+                this.scrollBarWrap.hide();
+            }
             this.scrollViewWrap.css('width', this.scrollCont.outerWidth(true));
         },
         initOpts : function () {
             this.currentX = this.currentY = 0;
+            this.moveX = this.moveY = 0;
             this.scrollWrap.scrollLeft(0);
             this.scrollWrap.scrollTop(0);
         },
@@ -199,9 +212,9 @@ button::-moz-focus-inner{padding:0;border:0}
             this.obj.on('keydown', $.proxy(this.onKeyDownFunc, this));
             this.scrollBarArea.on('mousedown touchstart', $.proxy(this.barAreaMouseDownFunc, this));
             this.scrollBar.on('mousedown touchstart', $.proxy(this.barMouseDownFunc, this));
-            $(doc).on('mouseup touchend', $.proxy(this.docMouseUpFunc, this));
-            $('#container').on('mousemove touchmove', $.proxy(this.containerMouseMoveFunc, this));
             this.scrollWrap.on('mousewheel', $.proxy(this.mouseWheelFunc, this));
+            this.overWrap.on('mousemove touchmove', $.proxy(this.containerMouseMoveFunc, this));
+            $(doc).on('mouseup touchend', $.proxy(this.docMouseUpFunc, this));
         },
         onKeyDownFunc : function (e) {
             if (e.which === 39) {
@@ -228,7 +241,7 @@ button::-moz-focus-inner{padding:0;border:0}
         barAreaMouseDownFunc : function (e) {
             var scrollBar = this.scrollBar,
                 scrollBarOffsetLeft = scrollBar.offset().left;
-            this.downWhich = e.pageX || e.originalEvent.touches[0].pageX;
+            this.downWhich = e.pageX;
             this.downPosition = (this.downWhich < scrollBarOffsetLeft) ? 'left' : 'right';
             win.clearInterval(this.downIntervalTime);
             this.downIntervalTime = win.setInterval($.proxy(this.downIntervalFunc, this), 10);
@@ -254,7 +267,7 @@ button::-moz-focus-inner{padding:0;border:0}
             e.preventDefault();
             e.stopPropagation();
             this.opts.barDown = true;
-            this.downWhich = e.pageX || e.originalEvent.touches[0].pageX;
+            this.downWhich = e.pageX;
         },
         docMouseUpFunc : function (e) {
             e.stopPropagation();
@@ -266,8 +279,7 @@ button::-moz-focus-inner{padding:0;border:0}
         containerMouseMoveFunc : function (e) {
             e.stopPropagation();
             if (!this.opts.barDown) return;
-            var pageX =  e.pageX || e.originalEvent.touches[0].pageX;
-            this.moveX = (pageX - this.downWhich) + this.currentX;
+            this.moveX = (e.pageX - this.downWhich) + this.currentX;
             this.contMoveX = this.moveX * this.contMoveRange;
             this.contMoveXFunc();
             this.barMoveXFunc();
@@ -304,12 +316,6 @@ button::-moz-focus-inner{padding:0;border:0}
             }
         },
         endMoveFunc : function () {
-            if (!this.moveX) {
-                this.moveX = 0;
-            }
-            if (!this.moveY) {
-                this.moveY = 0;
-            }
             this.currentX = this.moveX;
             this.currentY = this.moveY;
         },
