@@ -109,7 +109,16 @@ ins{text-decoration:none}
 (function (win, $) {
     'use strict';
     win.stProject = win.stProject || {};
-    win.stProject.anchorNav = function () {
+    win.stProject.anchorNav = function (args) {
+        var defParams = {
+            quick : '.quick_menu',
+            quickList : '.quick_list',
+            btnTop : '.btn_top',
+            activeClass : 'active',
+            fixedClass : 'quick_fixed'
+        };
+        this.opts = $.extend({}, defParams, (args || {}));
+        if (!(this.quick = $(this.opts.quick)).length) return;
         this.init();
     };
     win.stProject.anchorNav.prototype = {
@@ -120,8 +129,7 @@ ins{text-decoration:none}
             this.bindEvents();
         },
         setElements : function () {
-            this.quick = $('.quick_menu');
-            this.quickList = this.quick.find('.quick_list');
+            this.quickList = this.quick.find(this.opts.quickList);
             this.quickChild = this.quickList.children();
             this.quickBtns = this.quickChild.find('a').filter(function () {
                 var target = $(this),
@@ -129,7 +137,7 @@ ins{text-decoration:none}
                 if (!$(targetHref).length) return false;
                 return true;
             });
-            this.quickTop = this.quickChild.find('.btn_top');
+            this.quickTop = this.quickChild.find(this.opts.btnTop);
         },
         createOffset : function () {
             this.offsetArrays = [];
@@ -166,12 +174,12 @@ ins{text-decoration:none}
         quickFixedFunc : function () {
             var winTop = $(win).scrollTop();
             if (winTop >= this.quickOffsetTop) {
-                if (!this.quick.hasClass('quick_fixed')) {
-                    this.quick.addClass('quick_fixed');
+                if (!this.quick.hasClass(this.opts.fixedClass)) {
+                    this.quick.addClass(this.opts.fixedClass);
                 }
             } else {
-                if (this.quick.hasClass('quick_fixed')) {
-                    this.quick.removeClass('quick_fixed');
+                if (this.quick.hasClass(this.opts.fixedClass)) {
+                    this.quick.removeClass(this.opts.fixedClass);
                 }
             }
         },
@@ -188,10 +196,10 @@ ins{text-decoration:none}
         },
         quickActiveFunc : function () {
             if (this.activeIndex === null) {
-                this.quickBtns.removeClass('active');
+                this.quickBtns.removeClass(this.opts.activeClass);
             } else {
-                this.quickBtns.removeClass('active');
-                this.quickBtns.eq(this.activeIndex).addClass('active');
+                this.quickBtns.removeClass(this.opts.activeClass);
+                this.quickBtns.eq(this.activeIndex).addClass(this.opts.activeClass);
             }
         }
     };

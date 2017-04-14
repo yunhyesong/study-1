@@ -721,31 +721,33 @@ ins{text-decoration:none}
 (function (win, $) {
     'use strict';
     win.stProject = win.stProject || {};
-    win.stProject.stickyNav = function () {
+    win.stProject.stickyNav = function (args) {
+        var defParams = {
+            sticky : '.filter_sort_wrap',
+            fixedClass : 'sticky'
+        };
+        this.opts = $.extend({}, defParams, (args || {}));
+        if (!(this.obj = $(this.opts.sticky)).length) return;
         this.init();
     };
     win.stProject.stickyNav.prototype = {
         init : function () {
-            this.setElements();
             this.initLayout();
             this.createOffset();
             this.setWrapHeight();
             this.scrollFunc();
             this.bindEvents();
         },
-        setElements : function () {
-            this.sticky = $('.filter_sort_wrap');
-        },
         initLayout : function () {
-            var stickyWrapClass = 'js-' + this.sticky.attr('class') + '-wrap';
-            this.sticky.wrap('<div class="' + stickyWrapClass + '"/>');
-            this.stickyWrap = this.sticky.parent();
+            var stickyWrapClass = 'js-' + this.obj.attr('class') + '-wrap';
+            this.obj.wrap('<div class="' + stickyWrapClass + '"/>');
+            this.objWrap = this.obj.parent();
         },
         createOffset : function () {
-            this.stickyOffsetTop = this.stickyWrap.offset().top;
+            this.objOffsetTop = this.objWrap.offset().top;
         },
         setWrapHeight : function () {
-            this.stickyWrap.css('height', this.sticky.outerHeight(true));
+            this.objWrap.css('height', this.obj.outerHeight(true));
         },
         bindEvents : function () {
             $(win).on('scroll', $.proxy(this.scrollFunc, this));
@@ -755,13 +757,13 @@ ins{text-decoration:none}
         },
         quickFixedFunc : function () {
             var winTop = $(win).scrollTop();
-            if (winTop >= this.stickyOffsetTop) {
-                if (!this.sticky.hasClass('sticky')) {
-                    this.sticky.addClass('sticky');
+            if (winTop >= this.objOffsetTop) {
+                if (!this.obj.hasClass(this.opts.fixedClass)) {
+                    this.obj.addClass(this.opts.fixedClass);
                 }
             } else {
-                if (this.sticky.hasClass('sticky')) {
-                    this.sticky.removeClass('sticky');
+                if (this.obj.hasClass(this.opts.fixedClass)) {
+                    this.obj.removeClass(this.opts.fixedClass);
                 }
             }
         }

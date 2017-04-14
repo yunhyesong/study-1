@@ -70,24 +70,26 @@ li{vertical-align:top}
 (function (win, $) {
     'use strict';
     win.stProject = win.stProject || {};
-    win.stProject.masonryObj = function () {
+    win.stProject.masonryObj = function (args) {
+        var defParams = {
+            obj : '.grid-wrap',
+            item : '.grid-item'
+        };
+        this.opts = $.extend({}, defParams, (args || {}));
+        if (!(this.obj = $(this.opts.obj)).length) return;
         this.init();
     };
     win.stProject.masonryObj.prototype = {
         init : function () {
-            this.setElements();
             this.bindEvents();
             this.setMasonry();
-        },
-        setElements : function () {
-            this.obj = $('.grid-wrap');
         },
         bindEvents : function () {
             $(win).on('resize', $.proxy(this.resizeFunc, this));
         },
         setMasonry : function () {
             this.obj.masonry({
-                itemSelector : '.grid-item',
+                itemSelector : this.opts.item,
                 isResizable : false,
                 isAnimated : true
             });
