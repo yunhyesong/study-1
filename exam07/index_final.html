@@ -119,12 +119,18 @@ button::-moz-focus-inner{padding:0;border:0}
             this.closeBtn.on('click', $.proxy(this.layerClose, this));
             this.prevFocus.on('focusin', $.proxy(this.prevFocusFunc, this));
             this.nextFocus.on('focusin', $.proxy(this.nextFocusFunc, this));
+            this.layerObj.on('keydown', $.proxy(this.escapeFunc, this));
         },
         layerClose : function () {
            this.layerObj.triggerHandler('clickoutside');
         },
         outSideEvents : function () {
             this.layerObj.on('clickoutside touchendoutside', $.proxy(this.layerClickOutside, this));
+        },
+        escapeFunc : function (e) {
+            var keyCode = e.which || e.keyCode;
+            if (keyCode !== 27) return;
+           this.layerObj.triggerHandler('clickoutside');
         },
         layerView : function (e) {
             this.btnTarget = $(e.currentTarget);
