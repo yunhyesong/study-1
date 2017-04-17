@@ -98,13 +98,11 @@ button::-moz-focus-inner{padding:0;border:0}
         },
         reInit : function () {
             this.nextFocusFunc();
-            this.layerLastForm = this.layerObj.find(this.opts.focusTag).last();
         },
         setElements : function () {
             this.layerWrap = $(this.opts.layerWrapElement);
             this.layerObj = this.layerWrap.find(this.opts.layerElement);
             this.closeBtn = this.layerWrap.find(this.opts.closeElements);
-            this.layerLastForm = this.layerObj.find(this.opts.focusTag).last();
         },
         initLayout : function () {
             var focusOutTag = '<span class="js-focusout" tabindex="0" style="overflow:hidden;position:absolute;left:0;top:0;z-index:-1;width:1px;height:1px;font-size:0;line-height:0"></span>';
@@ -167,7 +165,7 @@ button::-moz-focus-inner{padding:0;border:0}
             this.outCallback('closeAfter');
         },
         prevFocusFunc : function () {
-            this.layerLastForm.focus();
+            this.closeBtn.focus();
         },
         nextFocusFunc : function () {
             this.layerObj.focus();
