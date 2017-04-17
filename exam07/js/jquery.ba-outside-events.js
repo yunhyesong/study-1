@@ -81,7 +81,7 @@
   
   $.map(
     // All these events will get an "outside" event counterpart by default.
-    'click dblclick mousemove mousedown mouseup mouseover mouseout change select submit keydown keypress keyup'.split(' '),
+    'click dblclick mousemove mousedown mouseup mouseover mouseout change select submit keydown keypress keyup touchstart touchend'.split(' '),
     function( event_name ) { jq_addOutsideEvent( event_name ); }
   );
   
