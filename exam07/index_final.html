@@ -152,12 +152,12 @@ button::-moz-focus-inner{padding:0;border:0}
             this.btnTarget = $(e.currentTarget);
             this.outCallback('viewBefore');
             if (this.opts.type === 'default') {
-                this.layerWrap.show();
+                this.layerWrap.stop(true, true).show();
                 this.showAfterBugFunc();
             } else if (this.opts.type === 'fade') {
-                this.layerWrap.stop().fadeIn(this.opts.speed, $.proxy(this.layerViewAfter, this));
+                this.layerWrap.stop(true, true).fadeIn(this.opts.speed, $.proxy(this.layerViewAfter, this));
             } else if (this.opts.type === 'slide') {
-                this.layerWrap.stop().slideDown(this.opts.speed, $.proxy(this.layerViewAfter, this));
+                this.layerWrap.stop(true, true).slideDown(this.opts.speed, $.proxy(this.layerViewAfter, this));
             }
             this.layerObj.focus();
         },
@@ -177,12 +177,12 @@ button::-moz-focus-inner{padding:0;border:0}
         },
         hideBeforeBugFunc : function () {
             if (this.opts.type === 'default') {
-                this.layerWrap.hide();
+                this.layerWrap.stop(true, true).hide();
                 this.hideAfterBugFunc();
             } else if (this.opts.type === 'fade') {
-                this.layerWrap.stop().fadeOut(this.opts.speed, $.proxy(this.layerCloseAfter, this));
+                this.layerWrap.stop(true, true).fadeOut(this.opts.speed, $.proxy(this.layerCloseAfter, this));
             } else if (this.opts.type === 'slide') {
-                this.layerWrap.stop().slideUp(this.opts.speed, $.proxy(this.layerCloseAfter, this));
+                this.layerWrap.stop(true, true).slideUp(this.opts.speed, $.proxy(this.layerCloseAfter, this));
             }
             this.btnTarget.focus();
         },
