@@ -38,12 +38,12 @@ button::-moz-focus-inner{padding:0;border:0}
             <div class="btn_left">
                 <div class="btn_pos js-btn-fade"><button>레이어 띄우기</button></div>
                 <div class="btn_pos js-btn-fade"><button>레이어 띄우기</button></div>
-                <div class="btn_pos js-btn-fade"><button>레이어 띄우기</button></div>
+                <div class="btn_pos js-btn-slide"><button>레이어 띄우기</button></div>
                 <div class="btn_pos js-btn-fade"><button>레이어 띄우기</button></div>
             </div>
             <div class="btn_right">
                 <div class="btn_pos js-btn-default"><button>레이어 띄우기</button></div>
-                <div class="btn_pos js-btn-default"><button>레이어 띄우기</button></div>
+                <div class="btn_pos js-btn-slide"><button>레이어 띄우기</button></div>
                 <div class="btn_pos js-btn-default"><button>레이어 띄우기</button></div>
             </div>
         </div>
@@ -87,7 +87,7 @@ button::-moz-focus-inner{padding:0;border:0}
     win.examProject = win.examProject || {};
     win.examProject.commonLayer = function (args) {
         var defParams = {
-            type : 'default', // default, fade
+            type : 'default', // default, fade, slide
             btnElements : '.js-layer-btn',
             layerWrapElement : '.js-layer-wrap',
             layerElement : '.js-layer',
@@ -155,6 +155,8 @@ button::-moz-focus-inner{padding:0;border:0}
                 this.showAfterBugFunc();
             } else if (this.opts.type === 'fade') {
                 this.layerWrap.stop().fadeIn(this.opts.speed, $.proxy(this.layerViewAfter, this));
+            } else if (this.opts.type === 'slide') {
+                this.layerWrap.stop().slideDown(this.opts.speed, $.proxy(this.layerViewAfter, this));
             }
             this.layerObj.focus();
         },
@@ -178,6 +180,8 @@ button::-moz-focus-inner{padding:0;border:0}
                 this.hideAfterBugFunc();
             } else if (this.opts.type === 'fade') {
                 this.layerWrap.stop().fadeOut(this.opts.speed, $.proxy(this.layerCloseAfter, this));
+            } else if (this.opts.type === 'slide') {
+                this.layerWrap.stop().slideUp(this.opts.speed, $.proxy(this.layerCloseAfter, this));
             }
             this.btnTarget.focus();
         },
@@ -223,6 +227,8 @@ button::-moz-focus-inner{padding:0;border:0}
             this.youris.eq(0).hide();
             this.youris.eq(1).show();
             this.posLayer.reInit();
+            this.posLayer2.reInit();
+            this.posLayer3.reInit();
         },
         setLayer : function () {
             this.posLayer = new win.examProject.commonLayer({
@@ -242,6 +248,18 @@ button::-moz-focus-inner{padding:0;border:0}
                 layerWrapElement : '.js-layer_area',
                 layerElement : '.layer_pos',
                 closeElements : '.layer_close button',
+                viewBefore : $.proxy(this.viewBefore, this),
+                viewAfter : $.proxy(this.viewAter, this),
+                closeBefore : $.proxy(this.closeBefore, this),
+                closeAfter : $.proxy(this.closeAfter, this)
+            });
+            this.posLayer3 = new win.examProject.commonLayer({
+                type : 'slide',
+                btnElements : '.js-btn-slide button',
+                layerWrapElement : '.js-layer_area',
+                layerElement : '.layer_pos',
+                closeElements : '.layer_close button',
+                speed : 1000,
                 viewBefore : $.proxy(this.viewBefore, this),
                 viewAfter : $.proxy(this.viewAter, this),
                 closeBefore : $.proxy(this.closeBefore, this),
