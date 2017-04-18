@@ -145,38 +145,45 @@ button::-moz-focus-inner{padding:0;border:0}
         escapeFunc : function (e) {
             var keyCode = e.which || e.keyCode;
             if (keyCode !== 27) return;
-           this.layerObj.triggerHandler('clickoutside');
+            this.layerClose();
         },
         layerView : function (e) {
             this.btnTarget = $(e.currentTarget);
             this.outCallback('viewBefore');
             if (this.opts.type === 'default') {
                 this.layerWrap.show();
-                win.clearTimeout(this.showTimeout);
-                this.showTimeout = win.setTimeout($.proxy(this.layerViewAfter, this), 10);
+                this.showAfterBugFunc();
             } else if (this.opts.type === 'fade') {
                 this.layerWrap.stop().fadeIn(this.opts.speed, $.proxy(this.layerViewAfter, this));
             }
             this.layerObj.focus();
         },
+        showAfterBugFunc : function () {
+            win.clearTimeout(this.showAfterTimeout);
+            this.showAfterTimeout = win.setTimeout($.proxy(this.layerViewAfter, this), 30);
+        },
         layerViewAfter : function () {
             this.outSideEvents();
             this.outCallback('viewAfter');
         },
-        layerClickOutside : function (e) {
+        layerClickOutside : function () {
             this.outCallback('closeBefore');
-            win.clearTimeout(this.closeOutTime);
-            this.closeOutTime = win.setTimeout($.proxy(function () {
-                if (this.opts.type === 'default') {
-                    this.layerWrap.hide();
-                    win.clearTimeout(this.closeTimeout);
-                    this.closeTimeout = win.setTimeout($.proxy(this.layerCloseAfter, this), 10);
-                } else if (this.opts.type === 'fade') {
-                    this.layerWrap.stop().fadeOut(this.opts.speed, $.proxy(this.layerCloseAfter, this));
-                }
-                this.btnTarget.focus();
-            }, this), 10);
+            win.clearTimeout(this.closeBeforeTimeout);
+            this.closeBeforeTimeout = win.setTimeout($.proxy(this.hideBeforeBugFunc, this), 30);
             this.layerObj.off('clickoutside touchendoutside');
+        },
+        hideBeforeBugFunc : function () {
+            if (this.opts.type === 'default') {
+                this.layerWrap.hide();
+                this.hideAfterBugFunc();
+            } else if (this.opts.type === 'fade') {
+                this.layerWrap.stop().fadeOut(this.opts.speed, $.proxy(this.layerCloseAfter, this));
+            }
+            this.btnTarget.focus();
+        },
+        hideAfterBugFunc : function () {
+            win.clearTimeout(this.closeAfterTimeout);
+            this.closeAfterTimeout = win.setTimeout($.proxy(this.layerCloseAfter, this), 30);
         },
         layerCloseAfter : function (e) {
             this.outCallback('closeAfter');
