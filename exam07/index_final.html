@@ -191,6 +191,7 @@ button::-moz-focus-inner{padding:0;border:0}
             this.closeAfterTimeout = win.setTimeout($.proxy(this.layerCloseAfter, this), 30);
         },
         layerCloseAfter : function (e) {
+            this.layerClose();
             this.outCallback('closeAfter');
         },
         prevFocusFunc : function () {
