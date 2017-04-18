@@ -240,7 +240,7 @@ button::-moz-focus-inner{padding:0;border:0}
                 closeElements : '.layer_close button',
                 speed : 500,
                 viewBefore : $.proxy(this.viewBefore, this),
-                viewAfter : $.proxy(this.viewAter, this),
+                viewAfter : $.proxy(this.viewAfter, this),
                 closeBefore : $.proxy(this.closeBefore, this),
                 closeAfter : $.proxy(this.closeAfter, this)
             });
@@ -250,7 +250,7 @@ button::-moz-focus-inner{padding:0;border:0}
                 layerElement : '.layer_pos',
                 closeElements : '.layer_close button',
                 viewBefore : $.proxy(this.viewBefore, this),
-                viewAfter : $.proxy(this.viewAter, this),
+                viewAfter : $.proxy(this.viewAfter, this),
                 closeBefore : $.proxy(this.closeBefore, this),
                 closeAfter : $.proxy(this.closeAfter, this)
             });
@@ -262,7 +262,7 @@ button::-moz-focus-inner{padding:0;border:0}
                 closeElements : '.layer_close button',
                 speed : 1000,
                 viewBefore : $.proxy(this.viewBefore, this),
-                viewAfter : $.proxy(this.viewAter, this),
+                viewAfter : $.proxy(this.viewAfter, this),
                 closeBefore : $.proxy(this.closeBefore, this),
                 closeAfter : $.proxy(this.closeAfter, this)
             });
@@ -270,7 +270,7 @@ button::-moz-focus-inner{padding:0;border:0}
         viewBefore : function () {
             if (win.console) win.console.log('layer View Before');
         },
-        viewAter : function () {
+        viewAfter : function () {
             if (win.console) win.console.log('layer View After');
         },
         closeBefore : function () {
