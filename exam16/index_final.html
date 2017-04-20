@@ -210,11 +210,11 @@ button::-moz-focus-inner{padding:0;border:0}
         },
         bindEvents : function () {
             this.obj.on('keydown', $.proxy(this.onKeyDownFunc, this));
-            this.scrollBarArea.on('mousedown touchstart', $.proxy(this.barAreaMouseDownFunc, this));
-            this.scrollBar.on('mousedown touchstart', $.proxy(this.barMouseDownFunc, this));
+            this.scrollBarArea.on('mousedown', $.proxy(this.barAreaMouseDownFunc, this));
+            this.scrollBar.on('mousedown', $.proxy(this.barMouseDownFunc, this));
             this.scrollWrap.on('mousewheel', $.proxy(this.mouseWheelFunc, this));
-            this.overWrap.on('mousemove touchmove', $.proxy(this.containerMouseMoveFunc, this));
-            $(doc).on('mouseup touchend', $.proxy(this.docMouseUpFunc, this));
+            this.overWrap.on('mousemove', $.proxy(this.containerMouseMoveFunc, this));
+            $(doc).on('mouseup', $.proxy(this.docMouseUpFunc, this));
         },
         onKeyDownFunc : function (e) {
             if (e.which === 39) {
