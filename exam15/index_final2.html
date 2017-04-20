@@ -183,6 +183,7 @@ li{vertical-align:top}
         init : function () {
             this.bindEvents();
             this.setMasonry();
+            this.resizeFunc();
         },
         bindEvents : function () {
             $(win).on('resize', $.proxy(this.resizeFunc, this));
