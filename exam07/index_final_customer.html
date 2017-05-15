@@ -312,7 +312,10 @@ button::-moz-focus-inner{padding:0;border:0}
         keyDownFunc : function (e) {
             var keyCode = e.keyCode || e.which,
                 target = $(e.target);
-            this.keyChangeFunc();
+            win.clearTimeout(this.keyDownTime);
+            this.keyDownTime = win.setTimeout($.proxy(function () {
+                this.keyChangeFunc();
+            }, this), 350);
         },
         keyChangeFunc : function () {
             this.btnis.triggerHandler('click');
