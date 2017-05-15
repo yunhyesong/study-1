@@ -464,7 +464,7 @@ button::-moz-focus-inner{padding:0;border:0}
         },
         customerCodeViewFunc : function () {
             var codeLine = [];
-            codeLine.push('var myLayer = new window.examProject.slidePlay(');
+            codeLine.push('var mySlide = new window.examProject.slidePlay(');
             for (var i = 0, max = this.customFormLabel.length; i < max; i++) {
                 var formId = this.customFormLabel.eq(i).attr('for'),
                     target = $('#' + formId),
