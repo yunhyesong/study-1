@@ -38,7 +38,7 @@ button::-moz-focus-inner{padding:0;border:0}
 .customer_form ul li .code_form textarea{width:100%;max-width:100%}
 .customer_form .btn_ok{margin-top:10px;padding-top:10px;border-top:1px solid #eee}
 
-.customer_code{margin:10px;padding:10px;border:1px solid #ccc;background:#eee}
+.customer_code{margin:10px;padding:10px;border:1px solid #ccc;background:#eee;font-size:12px}
 /* //temporary css */
 </style>
 </head>
@@ -161,7 +161,7 @@ button::-moz-focus-inner{padding:0;border:0}
             this.initLayout();
             this.bindEvents();
         },
-        reInit : function () {
+        domChangeFunc : function () {
             this.nextFocusFunc();
         },
         setElements : function () {
