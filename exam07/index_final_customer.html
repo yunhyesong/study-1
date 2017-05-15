@@ -301,8 +301,8 @@ button::-moz-focus-inner{padding:0;border:0}
         },
         bindEvents : function () {
             this.btnis.on('click', $.proxy(this.btnOkFunc, this));
-            this.customFormList.on('keyup', 'input[type=text]', $.proxy(this.keyDownFunc, this));
-            this.customFormList.on('change', 'input[type=checkbox], input[type=radio], select', $.proxy(this.keyChangeFunc, this));
+            // this.customFormList.on('keyup', 'input[type=text]', $.proxy(this.keyDownFunc, this));
+            // this.customFormList.on('change', 'input[type=checkbox], input[type=radio], select', $.proxy(this.keyChangeFunc, this));
         },
         btnOkFunc : function (e) {
             e.preventDefault();
