@@ -23,8 +23,10 @@ button::-moz-focus-inner{padding:0;border:0}
 .layer_pos{position:absolute;left:50%;top:50%;width:300px;height:300px;margin:-170px 0 0 -170px;padding:20px;background:#fff}
 .layer_close{position:absolute;right:20px;top:20px}
 
-.customer_form{position:fixed;right:10px;top:10px;width:280px;padding:10px;background:rgba(0,0,0,.2);font-size:12px}
+.customer_form{position:fixed;right:10px;top:10px;width:280px;padding:10px;font-size:12px}
+.customer_form .customer_form_dimmed{position:absolute;left:0;top:0;width:100%;height:100%;background:#000;opacity:0.2;filter:alpha(opacity=20)}
 .customer_form select,.customer_form input,.customer_form textarea,.customer_form button{font-size:12px;line-height:1.5;vertical-align:top}
+.customer_form ul{position:relative}
 .customer_form ul li{margin-top:7px;zoom:1}
 .customer_form ul li:first-child{margin-top:0}
 .customer_form ul li:after{display:block;clear:both;content:''}
@@ -36,7 +38,7 @@ button::-moz-focus-inner{padding:0;border:0}
 .customer_form ul li .code_form{display:block}
 .customer_form ul li .code_form span{display:block}
 .customer_form ul li .code_form textarea{width:100%;max-width:100%}
-.customer_form .btn_ok{margin-top:10px;padding-top:10px;border-top:1px solid #eee}
+.customer_form .btn_ok{position:relative;margin-top:10px;padding-top:10px;border-top:1px solid #eee}
 
 .customer_code{margin:10px;padding:10px;border:1px solid #ccc;background:#eee;font-size:12px}
 /* //temporary css */
@@ -61,6 +63,7 @@ button::-moz-focus-inner{padding:0;border:0}
         </div>
         <div class="customer_wrap">
             <div class="customer_form">
+                <span class="customer_form_dimmed"></span>
                 <ul>
                     <li>
                         <span class="tit"><label for="type">type : </label></span>
