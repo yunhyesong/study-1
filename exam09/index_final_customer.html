@@ -242,6 +242,7 @@ button::-moz-focus-inner{padding:0;border:0}
         setAutoPlay : function () {
             if (!this.opts.autoplay) {
                 this.castControl.hide();
+                this.stopView();
             } else {
                 this.opts.autoplay = (this.opts.autoplay <= 500) ? 500 : this.opts.autoplay;
                 this.castControl.show();
