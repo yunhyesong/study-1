@@ -17,7 +17,8 @@ button::-moz-focus-inner{padding:0;border:0}
 .slide_tab ul{display:inline-block;vertical-align:top}
 .slide_tab ul li{float:left;margin:0 3px}
 .slide_tab ul li a{display:inline-block;width:12px;height:12px;border-radius:100%;background:#ccc;vertical-align:top}
-.slide_tab ul li.active a{background:#000}
+.slide_tab ul li.active a{background:skyblue;box-shadow:0 0 1px 1px rgba(0,0,0,.5)}
+.slide_tab .slide_control button.active{background:skyblue}
 .slide_cont{overflow:hidden;position:relative;height:440px}
 .slide_article{display:none;position:absolute;left:0;top:0;width:100%;height:440px}
 .slide_article.active{z-index:10}
@@ -147,10 +148,12 @@ button::-moz-focus-inner{padding:0;border:0}
 <!-- [ Javascript Area ] -->
 <!-- Libs -->
 <script src="../js/libs/jquery-1.12.4.min.js"></script>
+<script src="../js/libs/jquery.ba-outside-events.min.js"></script>
 <script>
 (function (win, $) {
     'use strict';
     win.examProject = win.examProject || {};
+    var hasOwnProperty = Object.prototype.hasOwnProperty;
     win.examProject.slidePlay = function (args) {
         var defParams = {
             type : 'default', // default, fade, slide
@@ -168,7 +171,7 @@ button::-moz-focus-inner{padding:0;border:0}
             activeClass : 'active',
             activeIndex : 1,
             direction : 'left',
-            autoplay : null,
+            autoplay : 0,
             speed : 150,
             viewBefore : null,
             viewAfter : null
@@ -223,27 +226,36 @@ button::-moz-focus-inner{padding:0;border:0}
         },
         initLayout : function () {
             var initHash = win.location.hash,
-                hashTarget = this.castContChild.filter(initHash);
+                hashTarget = this.castContChild.filter(initHash),
+                focusOutTagClass = 'js-focusout',
+                focusOutTag = '<span class="' + focusOutTagClass + '" tabindex="0" style="overflow:hidden;position:absolute;left:0;top:0;z-index:-1;width:1px;height:1px;font-size:0;line-height:0"></span>';
+            if (!this.castCont.prev().hasClass(focusOutTagClass)) {
+                this.castCont.before(focusOutTag);
+            }
+            if (!this.castCont.next().hasClass(focusOutTagClass)) {
+                this.castCont.after(focusOutTag);
+            }
             this.currentIndex = (hashTarget.length) ? hashTarget.index() : (this.opts.activeIndex - 1);
             this.castTabChild.removeClass(this.opts.activeClass);
-            this.castContChild.attr('tabIndex', 0).hide();
+            this.castCont.attr('tabIndex', 0);
+            this.castContOutFocus = this.castCont.siblings('.' + focusOutTagClass).hide();
+            this.castContChild.hide();
             this.castNumTotal.text(this.castTabChild.length);
             this.onIndexFiltering();
-            this.viewLayout();
+            this.castTabChild.eq(this.currentIndex).addClass(this.opts.activeClass);
+            this.castContChild.eq(this.currentIndex).stop(true, true).show().addClass(this.opts.activeClass);
+            this.oldIndex = this.currentIndex;
             this.indexUpdate();
         },
         setAutoPlay : function () {
-            if ((this.opts.autoplay === null) || !this.opts.autoplay) {
-                this.playingType = false;
+            if (!this.opts.autoplay) {
                 this.castControl.hide();
             } else {
-                this.playingType = true;
                 this.opts.autoplay = (this.opts.autoplay <= 500) ? 500 : this.opts.autoplay;
                 this.castControl.show();
-                this.castPlayBtn.hide();
-                this.castStopBtn.show();
+                this.stopView();
+                this.playView();
             }
-            this.stopView();
         },
         bindEvents : function () {
             this.castTabChild.on('click' + this.opts.customEvents, '>a', $.proxy(this.onClickFunc, this));
@@ -251,6 +263,14 @@ button::-moz-focus-inner{padding:0;border:0}
             this.castNextBtn.on('click' + this.opts.customEvents, $.proxy(this.onNextFunc, this));
             this.castPlayBtn.on('click' + this.opts.customEvents, $.proxy(this.onPlayFunc, this));
             this.castStopBtn.on('click' + this.opts.customEvents, $.proxy(this.onStopFunc, this));
+            this.castContOutFocus.on('focusin' + this.opts.customEvents, $.proxy(this.onContOutFunc, this));
+            if (this.opts.autoplay) {
+                this.slideObj.on('mouseenter' + this.opts.customEvents + ' focusin' + this.opts.customEvents, $.proxy(this.onObjInFunc, this));
+                this.slideObj.on('mouseleave' + this.opts.customEvents, $.proxy(this.onObjOutFunc, this));
+            }
+        },
+        outSideEvents : function () {
+            this.slideObj.on('focusoutside', $.proxy(this.onObjFocusOutside, this));
         },
         onClickFunc : function (e) {
             e.preventDefault();
@@ -264,25 +284,25 @@ button::-moz-focus-inner{padding:0;border:0}
                 this.direction = 'left';
                 this.setDirection();
             }
-            this.btnTarget = this.castContChild.eq(this.currentIndex);
+            this.btnTarget = this.castCont;
+            this.clickFocusTarget = target;
+            this.castContOutFocus.show();
             this.hashUpdate();
             this.stopView();
             this.viewLayout();
             this.indexUpdate();
         },
-        onPrevFunc : function (e) {
-            this.btnTarget = $(e.currentTarget);
+        onPrevFunc : function () {
             this.currentIndex -= 1;
             this.direction = 'right';
-            this.onIndexFiltering();
+            this.onIndexFiltering()
             this.setDirection();
             this.hashUpdate();
             this.stopView();
             this.viewLayout();
             this.indexUpdate();
         },
-        onNextFunc : function (e) {
-            this.btnTarget = $(e.currentTarget);
+        onNextFunc : function () {
             this.currentIndex += 1;
             this.direction = 'left';
             this.onIndexFiltering();
@@ -293,16 +313,43 @@ button::-moz-focus-inner{padding:0;border:0}
             this.indexUpdate();
         },
         onPlayFunc : function () {
-            this.playingType = true;
+            if (this.clickPlayType) return;
+            this.clickPlayType = true;
+            this.clickStopType = false;
             this.playView();
-            this.castPlayBtn.hide();
-            this.castStopBtn.show().focus();
         },
         onStopFunc : function () {
-            this.playingType = false;
+            if (this.clickStopType) return;
+            this.clickPlayType = false;
+            this.clickStopType = true;
             this.stopView();
-            this.castPlayBtn.show().focus();
-            this.castStopBtn.hide();
+        },
+        onContOutFunc : function () {
+            if (this.clickFocusTarget) {
+                this.clickFocusTarget.focus();
+                this.castContOutFocus.hide();
+                this.clickFocusTarget = null;
+            }
+        },
+        onObjInFunc : function (e) {
+            if (e.type === 'focusin') {
+                if (this.focusingType) return;
+                this.focusingType = true;
+                this.outSideEvents();
+            }
+            this.stopView();
+        },
+        onObjOutFunc : function () {
+            this.focusingType = false;
+            this.clickPlayType = false;
+            if (!this.clickPlayType && !this.clickStopType) {
+                this.stopView();
+                this.playView();
+            }
+            this.slideObj.off('focusoutside');
+        },
+        onObjFocusOutside : function () {
+            this.slideObj.triggerHandler('mouseleave' + this.opts.customEvents);
         },
         onIndexFiltering : function () {
             if (this.currentIndex < 0) {
@@ -313,6 +360,7 @@ button::-moz-focus-inner{padding:0;border:0}
             }
         },
         playView : function () {
+            this.clickStopType = false;
             this.autoPlayTime = win.setInterval($.proxy(function () {
                 this.currentIndex += 1;
                 this.onIndexFiltering();
@@ -321,14 +369,16 @@ button::-moz-focus-inner{padding:0;border:0}
                 this.viewLayout();
                 this.indexUpdate();
             }, this), this.opts.autoplay);
+            this.castPlayBtn.addClass(this.opts.activeClass);
+            this.castStopBtn.removeClass(this.opts.activeClass);
         },
         stopView : function () {
-            if ((this.opts.autoplay !== null) || this.opts.autoplay || (this.autoPlayTime !== null)) {
+            this.clickPlayType = false;
+            if (this.opts.autoplay || (this.autoPlayTime !== null)) {
+                this.castPlayBtn.removeClass(this.opts.activeClass);
+                this.castStopBtn.addClass(this.opts.activeClass);
                 win.clearTimeout(this.autoPlayTime);
                 this.autoPlayTime = null;
-            }
-            if (this.playingType) {
-                this.playView();
             }
         },
         viewLayout : function () {
@@ -366,6 +416,7 @@ button::-moz-focus-inner{padding:0;border:0}
             }
             if (this.btnTarget) {
                 this.btnTarget.focus();
+                this.btnTarget = null;
             }
             this.outCallback('viewAfter');
         },
@@ -374,8 +425,8 @@ button::-moz-focus-inner{padding:0;border:0}
             this.castNumCurrent.text(indexNum);
         },
         hashUpdate : function () {
-            var hashName = this.castContChild.eq(this.currentIndex).attr('id');
-            win.location.hash = '#' + hashName;
+            // var hashName = this.castContChild.eq(this.currentIndex).attr('id');
+            // win.location.hash = '#' + hashName;
         },
         outCallback : function (type) {
             var callbackObject = this.opts[type];
@@ -389,6 +440,9 @@ button::-moz-focus-inner{padding:0;border:0}
             this.castNextBtn.off('click' + this.opts.customEvents);
             this.castPlayBtn.off('click' + this.opts.customEvents);
             this.castStopBtn.off('click' + this.opts.customEvents);
+            this.slideObj.off('mouseenter' + this.opts.customEvents + ' focusin' + this.opts.customEvents);
+            this.slideObj.off('mouseleave' + this.opts.customEvents);
+            this.slideObj.off('focusoutside');
         },
         reInit : function () {
             this.unBindEvents();
@@ -406,9 +460,10 @@ button::-moz-focus-inner{padding:0;border:0}
     win.examProject.yoursObject.prototype = {
         init : function () {
             this.setElements();
+            this.setLayer();
+            this.optsViewSync();
             this.customerCodeViewFunc();
             this.bindEvents();
-            this.setLayer();
         },
         setElements : function () {
             this.btnis = $('.btn_ok button');
@@ -442,6 +497,15 @@ button::-moz-focus-inner{padding:0;border:0}
             this.mySlide = new win.examProject.slidePlay();
             this.basicSlideOpts = this.mySlide.opts;
         },
+        optsViewSync : function () {
+            for (var i = 0, max = this.customFormLabel.length; i < max; i++) {
+                var formId = this.customFormLabel.eq(i).attr('for'),
+                    target = $('#' + formId);
+                if (this.basicSlideOpts.hasOwnProperty(formId)) {
+                    target.val(this.basicSlideOpts[formId]);
+                }
+            }
+        },
         customerCodeEnterFunc : function () {
             var targetCode = {},
                 codeLength = false;
@@ -450,8 +514,10 @@ button::-moz-focus-inner{padding:0;border:0}
                     target = $('#' + formId),
                     targetType = target.data('type'),
                     targetVal = target.val();
-                if (((formId === 'type') && (targetVal === 'default')) || ((formId === 'direction') && (targetVal === 'left'))) continue;
-                if (targetVal) {
+                if (this.basicSlideOpts[formId] !== targetVal) {
+                    if (!targetVal) {
+                        target.val(this.basicSlideOpts[formId]);
+                    }
                     if (targetType === 'number') {
                         targetVal = Number(targetVal);
                     }
@@ -469,8 +535,7 @@ button::-moz-focus-inner{padding:0;border:0}
                     target = $('#' + formId),
                     targetType = target.data('type'),
                     targetVal = target.val();
-                if (((formId === 'type') && (targetVal === 'default')) || ((formId === 'direction') && (targetVal === 'left'))) continue;
-                if (targetVal) {
+                if (this.basicSlideOpts[formId] != targetVal) {
                     if (codeLine.length === 1) {
                         codeLine.push('{\n');
                     } else if (codeLine.length >= 3) {
