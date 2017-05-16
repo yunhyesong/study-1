@@ -343,7 +343,7 @@ button::-moz-focus-inner{padding:0;border:0}
                     target = $('#' + formId),
                     targetType = target.data('type'),
                     targetVal = target.val();
-                if (this.basicLayerOpts[formId] != targetVal) {
+                if (this.basicLayerOpts[formId] !== targetVal) {
                     if (!targetVal) {
                         target.val(this.basicLayerOpts[formId]);
                     }
