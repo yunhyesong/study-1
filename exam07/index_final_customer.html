@@ -137,6 +137,7 @@ button::-moz-focus-inner{padding:0;border:0}
 (function (win, $) {
     'use strict';
     win.examProject = win.examProject || {};
+    var hasOwnProperty = Object.prototype.hasOwnProperty;
     win.examProject.commonLayer = function (args) {
         var defParams = {
             type : 'default', // default, fade, slide
@@ -288,9 +289,10 @@ button::-moz-focus-inner{padding:0;border:0}
     win.examProject.yoursObject.prototype = {
         init : function () {
             this.setElements();
+            this.setLayer();
+            this.optsViewSync();
             this.customerCodeViewFunc();
             this.bindEvents();
-            this.setLayer();
         },
         setElements : function () {
             this.btnis = $('.btn_ok button');
@@ -324,6 +326,15 @@ button::-moz-focus-inner{padding:0;border:0}
             this.posLayer = new win.examProject.commonLayer();
             this.basicLayerOpts = this.posLayer.opts;
         },
+        optsViewSync : function () {
+            for (var i = 0, max = this.customFormLabel.length; i < max; i++) {
+                var formId = this.customFormLabel.eq(i).attr('for'),
+                    target = $('#' + formId);
+                if (this.basicLayerOpts.hasOwnProperty(formId)) {
+                    target.val(this.basicLayerOpts[formId]);
+                }
+            }
+        },
         customerCodeEnterFunc : function () {
             var targetCode = {},
                 codeLength = false;
@@ -332,8 +343,10 @@ button::-moz-focus-inner{padding:0;border:0}
                     target = $('#' + formId),
                     targetType = target.data('type'),
                     targetVal = target.val();
-                if ((formId === 'type') && (targetVal === 'default')) continue;
-                if (targetVal) {
+                if (this.basicLayerOpts[formId] != targetVal) {
+                    if (!targetVal) {
+                        target.val(this.basicLayerOpts[formId]);
+                    }
                     if (targetType === 'number') {
                         targetVal = Number(targetVal);
                     }
@@ -351,8 +364,7 @@ button::-moz-focus-inner{padding:0;border:0}
                     target = $('#' + formId),
                     targetType = target.data('type'),
                     targetVal = target.val();
-                if ((formId === 'type') && (targetVal === 'default')) continue;
-                if (targetVal) {
+                if (this.basicLayerOpts[formId] != targetVal) {
                     if (codeLine.length === 1) {
                         codeLine.push('{\n');
                     } else if (codeLine.length >= 3) {
