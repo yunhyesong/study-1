@@ -133,12 +133,15 @@ button::-moz-focus-inner{padding:0;border:0}
 <script src="../js/libs/jquery-1.12.4.min.js"></script>
 <script src="../js/libs/jquery.animate-enhanced.custom.js"></script>
 <script src="js/jquery.ba-outside-events.min.js"></script>
+<!-- Apps -->
+<script src="../js/apps/common.js"></script>
 <script>
 (function (win, $) {
     'use strict';
-    win.examProject = win.examProject || {};
-    var hasOwnProperty = Object.prototype.hasOwnProperty;
-    win.examProject.commonLayer = function (args) {
+    win.stProject = win.stProject || {};
+    var hasOwnProperty = Object.prototype.hasOwnProperty,
+        PAGE = win.stProject.page;
+    win.stProject.commonLayer = function (args) {
         var defParams = {
             type : 'default', // default, fade, slide
             btnElements : '.js-layer-btn button',
@@ -159,7 +162,7 @@ button::-moz-focus-inner{padding:0;border:0}
         if (!(this.btnObj = $(this.opts.btnElements)).length) return;
         this.init();
     };
-    win.examProject.commonLayer.prototype = {
+    win.stProject.commonLayer.prototype = {
         init : function () {
             this.setElements();
             this.initLayout();
@@ -228,6 +231,7 @@ button::-moz-focus-inner{padding:0;border:0}
         },
         layerViewAfter : function () {
             this.outSideEvents();
+            PAGE.scrollLock(true);
             this.outCallback('viewAfter');
         },
         layerClickOutside : function () {
@@ -253,6 +257,7 @@ button::-moz-focus-inner{padding:0;border:0}
         },
         layerCloseAfter : function (e) {
             this.layerClose();
+            PAGE.scrollLock(false);
             this.outCallback('closeAfter');
         },
         prevFocusFunc : function () {
@@ -283,10 +288,10 @@ button::-moz-focus-inner{padding:0;border:0}
         }
     };
 
-    win.examProject.yoursObject = function () {
+    win.stProject.yoursObject = function () {
         this.init();
     };
-    win.examProject.yoursObject.prototype = {
+    win.stProject.yoursObject.prototype = {
         init : function () {
             this.setElements();
             this.setLayer();
@@ -323,7 +328,7 @@ button::-moz-focus-inner{padding:0;border:0}
             this.btnis.triggerHandler('click');
         },
         setLayer : function () {
-            this.posLayer = new win.examProject.commonLayer();
+            this.posLayer = new win.stProject.commonLayer();
             this.basicLayerOpts = this.posLayer.opts;
         },
         optsViewSync : function () {
@@ -358,7 +363,7 @@ button::-moz-focus-inner{padding:0;border:0}
         },
         customerCodeViewFunc : function () {
             var codeLine = [];
-            codeLine.push('var myLayer = new window.examProject.commonLayer(');
+            codeLine.push('var myLayer = new window.stProject.commonLayer(');
             for (var i = 0, max = this.customFormLabel.length; i < max; i++) {
                 var formId = this.customFormLabel.eq(i).attr('for'),
                     target = $('#' + formId),
@@ -385,7 +390,7 @@ button::-moz-focus-inner{padding:0;border:0}
         }
     };
     $(function () {
-        win.examYours = new win.examProject.yoursObject();
+        win.examYours = new win.stProject.yoursObject();
     });
 })(window, window.jQuery);
 </script>

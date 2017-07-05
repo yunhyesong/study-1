@@ -85,8 +85,8 @@ button::-moz-focus-inner{padding:0;border:0}
 <script>
 (function (win, $) {
     'use strict';
-    win.examProject = win.examProject || {};
-    win.examProject.commonLayer = function (args) {
+    win.stProject = win.stProject || {};
+    win.stProject.commonLayer = function (args) {
         var defParams = {
             type : 'default', // default, fade, slide
             btnElements : '.js-layer-btn',
@@ -103,7 +103,7 @@ button::-moz-focus-inner{padding:0;border:0}
         if (!(this.btnObj = $(this.opts.btnElements)).length) return;
         this.init();
     };
-    win.examProject.commonLayer.prototype = {
+    win.stProject.commonLayer.prototype = {
         init : function () {
             this.setElements();
             this.initLayout();
@@ -208,10 +208,10 @@ button::-moz-focus-inner{padding:0;border:0}
         }
     };
 
-    win.examProject.yoursObject = function () {
+    win.stProject.yoursObject = function () {
         this.init();
     };
-    win.examProject.yoursObject.prototype = {
+    win.stProject.yoursObject.prototype = {
         init : function () {
             this.setElements();
             this.bindEvents();
@@ -233,7 +233,7 @@ button::-moz-focus-inner{padding:0;border:0}
             this.posLayer3.reInit();
         },
         setLayer : function () {
-            this.posLayer = new win.examProject.commonLayer({
+            this.posLayer = new win.stProject.commonLayer({
                 type : 'fade',
                 btnElements : '.js-btn-fade button',
                 layerWrapElement : '.js-layer_area',
@@ -245,7 +245,7 @@ button::-moz-focus-inner{padding:0;border:0}
                 closeBefore : $.proxy(this.closeBefore, this),
                 closeAfter : $.proxy(this.closeAfter, this)
             });
-            this.posLayer2 = new win.examProject.commonLayer({
+            this.posLayer2 = new win.stProject.commonLayer({
                 btnElements : '.js-btn-default button',
                 layerWrapElement : '.js-layer_area',
                 layerElement : '.layer_pos',
@@ -255,7 +255,7 @@ button::-moz-focus-inner{padding:0;border:0}
                 closeBefore : $.proxy(this.closeBefore, this),
                 closeAfter : $.proxy(this.closeAfter, this)
             });
-            this.posLayer3 = new win.examProject.commonLayer({
+            this.posLayer3 = new win.stProject.commonLayer({
                 type : 'slide',
                 btnElements : '.js-btn-slide button',
                 layerWrapElement : '.js-layer_area',
@@ -282,7 +282,7 @@ button::-moz-focus-inner{padding:0;border:0}
         }
     };
     $(function () {
-        win.examYours = new win.examProject.yoursObject();
+        win.examYours = new win.stProject.yoursObject();
     });
 })(window, window.jQuery);
 </script>

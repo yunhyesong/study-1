@@ -100,4 +100,54 @@
             }
         }
     })();
+    
+    win.stProject.page = (function () {
+        return {
+            init : function () {
+                this.setOpts();
+                this.setElements();
+            },
+            setOpts : function () {
+                this.scrollLocked = false;
+                this.lockStyles = {
+                    'overflow-y' : 'scroll',
+                    'position' : 'fixed',
+                    'width' : '100%'
+                };
+            },
+            setElements : function () {
+                this.html = $('html');
+            },
+            scrollLock : function (type) {
+                var _this = this;
+                function saveStyles () {
+                    _this.prevStyle = _this.html.attr('style');
+                    _this.prevScroll = {
+                        scrollLeft : $(win).scrollLeft(),
+                        scrollTop : $(win).scrollTop()
+                    };
+                };
+                if (type) {
+                    if (this.scrollLocked) return;
+                    var appliedLock = {};
+                    saveStyles();
+                    $.extend(appliedLock, this.lockStyles, {
+                        'left' : - this.prevScroll.scrollLeft,
+                        'top' : - this.prevScroll.scrollTop
+                    });
+                    this.html.css(appliedLock);
+                    this.scrollLocked = true;
+                } else {
+                    if (!this.scrollLocked) return;
+                    this.html.removeAttr('style').attr('style', this.prevStyle);
+                    $(win).scrollLeft(this.prevScroll.scrollLeft).scrollTop(this.prevScroll.scrollTop);
+                    this.scrollLocked = false;
+                }
+            }
+        }
+    })();
+
+    $(function () {
+        win.stProject.page.init();
+    });
 })(window, window.jQuery, window.document);
